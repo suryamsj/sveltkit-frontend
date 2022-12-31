@@ -58,6 +58,15 @@
             }
         });
     }
+
+    // Search Data
+    let search = "";
+    $: searchUser = $store.filter((user) => {
+        return (
+            user.name.toLowerCase().includes(search) ||
+            user.email.toLowerCase().includes(search)
+        );
+    });
 </script>
 
 <div
@@ -65,6 +74,23 @@
     out:fly={{ y: -50, duration: 450 }}
 >
     <Section>
+        <div class="row">
+            <div class="col-lg-12 col-md-12 col-12">
+                <div class="input-group mb-3">
+                    <span class="input-group-text" id="icon-user"
+                        ><i class="bi bi-search" /></span
+                    >
+                    <input
+                        type="text"
+                        class="form-control"
+                        placeholder="Search"
+                        aria-label="Search"
+                        aria-describedby="icon-user"
+                        bind:value={search}
+                    />
+                </div>
+            </div>
+        </div>
         <div class="row">
             <div class="col-lg-12 col-md-12 col-12">
                 <Card>
@@ -88,7 +114,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                {#each $store as item, index}
+                                {#each searchUser as item, index}
                                     <tr>
                                         <td>{index + 1}</td>
                                         <td>{item.name}</td>
